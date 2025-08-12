@@ -8,6 +8,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 enable_testing(true)
 
+include_directories(
+    Button
+    Common
+    Display
+    Logger
+    Support
+    SystemHarnesses
+    Timer
+    ThirdParty
+)
+
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -18,22 +29,48 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(PROJECT_SOURCES
-	 SystemHarnesses/SystemHarness.cpp
-	 SystemHarnesses/SystemHarness.h
-	 SystemHarnesses/SystemHarnessInterface.h
-	 SystemHarnesses/SystemTestHarness.h
-	 SystemHarnesses/SystemTestHarness.h
+    Button/ButtonAdapterInterface.h
+    Button/ButtonManager.cpp
+    Button/ButtonManager.h
+    Button/ButtonManagerInterface.h
+
+    Common/CommonTypes.cpp
+    Common/CommonTypes.h
+    Common/Constants.h
+    Common/Definitions.h
+    Common/TimeHelpers.h
+
+    Display/DisplayAdapterInterface.h
+    Display/DisplayManager.cpp
+    Display/DisplayManager.h
+
+    Logger/DebugLogger.cpp
+    Logger/DebugLogger.h
+    Logger/LoggerHelpers.h
+    Logger/SystemLogger.cpp
+    Logger/SystemLogger.h
+
+    Timer/Timer.cpp
+    Timer/Timer.h
+
+    SystemHarnesses/SystemHarnessInterface.h
+    SystemHarnesses/SystemTestHarness.h
 )
 
 set(TEST_SOURCES
-    Tests/SystemHarnessTest.cpp
+    Support/ButtonAdapterMock.h
+    Support/ButtonManagerMock.h
+    Support/DisplayAdapterMock.h
+    Support/LoggerFake.h
 )
 
 add_executable(PanelAlarm ${PROJECT_SOURCES} ${TEST_SOURCES})
 target_link_libraries(
     PanelAlarm
-	 GTest::gtest_main
+	GTest::gtest_main
+	GTest::gmock
 )
+target_compile_options(PanelAlarm PRIVATE -Wall -Wextra)
 
 include(GoogleTest)
 gtest_discover_tests(PanelAlarm)

@@ -1,6 +1,7 @@
 #include "Timer.h"
 
-#include <Arduino.h>
+#include <TimeHelpers.h>
+#include <Definitions.h>
 #include <algorithm>
 
 std::vector<Timer*> Timer::AllTimers;
@@ -12,6 +13,18 @@ void Timer::UpdateTimers(const unsigned long timestamp)
   {
     timer->Update(timestamp);
   }
+}
+
+Timer::Timer()
+  : Callback()
+  , StartTime(0)
+  , Duration(0)
+  , RemainingDuration(Duration)
+  , LastUpdateTimestamp(0)
+  , Paused(true)
+  , Started(false)
+  , SingleShot(true)
+{
 }
 
 Timer::Timer(
@@ -33,12 +46,30 @@ Timer::~Timer()
 {
   // If UpdateTimers is not called before this is scheduled for deletion, the final callback
   // trigger may not fire. Probably never going to be a problem though.
-  const auto iter = std::find(AllTimers.begin(), AllTimers.end(), *this);
+  const auto iter = std::find(AllTimers.begin(), AllTimers.end(), this);
 
   if (AllTimers.end() != iter)
   {
     AllTimers.erase(iter);
   }
+}
+
+void Timer::SetDuration(const unsigned long duration)
+{
+  Stop();
+  Duration = duration;
+}
+
+void Timer::SetCallback(std::function<void()> callback)
+{
+  Stop();
+  Callback = callback;
+}
+
+void Timer::SetSingleShot(bool isSingleShot)
+{
+  Stop();
+  SingleShot = isSingleShot;
 }
 
 bool Timer::IsStarted() const
@@ -63,7 +94,7 @@ void Timer::Start()
     Started = true;
     Paused = false;
     RemainingDuration = Duration;
-    StartTime = millis();
+    StartTime = TimeHelpers::GetTimeSinceEpoch();
   }
 }
 
@@ -85,7 +116,7 @@ void Timer::Pause()
 {
   if (!Paused && Started)
   {
-    RemainingDuration = millis() - StartTime;
+    RemainingDuration = TimeHelpers::GetTimeSinceEpoch() - StartTime;
     Paused = true;
   }
 }
@@ -94,7 +125,7 @@ void Timer::Resume()
 {
   if (Paused && Started)
   {
-    StartTime = millis() - RemainingDuration;
+    StartTime = TimeHelpers::GetTimeSinceEpoch() - RemainingDuration;
     Paused = false;
   }
 }

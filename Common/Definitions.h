@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 #define DEBUG true
-#define TESTING true
-#define LOG_TO_FILE trueh
+#define TESTING
+#define LOG_TO_FILE true
 
 #endif

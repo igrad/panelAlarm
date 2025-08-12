@@ -11,8 +11,10 @@
 #include <functional>
 #include <vector>
 
-class Timer {
+class Timer
+{
 public:
+  Timer();
   Timer(const unsigned long duration,
         std::function<void()> callback,
         const bool singleShot = true);
@@ -21,6 +23,10 @@ public:
   ~Timer();
 
   static void UpdateTimers(const unsigned long timestamp);
+
+  void SetDuration(const unsigned long duration);
+  void SetCallback(std::function<void()> callback);
+  void SetSingleShot(bool isSingleShot);
 
   bool IsStarted() const;
   bool IsPaused() const;
@@ -31,7 +37,6 @@ public:
   void Stop();
   void Pause();
   void Resume();
-
 
 private:
   static std::vector<Timer*> AllTimers;

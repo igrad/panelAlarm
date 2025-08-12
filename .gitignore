@@ -1,2 +1,4 @@
 SparkFun*
 registers.h
+build/*
+.cache/*
