@@ -4,7 +4,6 @@
 #include <Definitions.h>
 #include <TimeHelpers.h>
 
-#include <iostream>
 #include <sstream>
 
 #ifndef TESTING

@@ -11,7 +11,6 @@ public:
   MOCK_METHOD(bool, Begin, (), (override));
 
   MOCK_METHOD(PanelState, GetPanelState, (), (const override));
-  MOCK_METHOD(void, SetButtonAdapterState, (const PanelState), (override));
 
   MOCK_METHOD(void, SetLEDState, (const bool), (override));
 };

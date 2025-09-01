@@ -8,8 +8,8 @@
 class DisplayAdapterMock: public DisplayAdapterInterface
 {
 public:
-  MOCK_METHOD(void, SendAlarmCode, (AlarmCode code), (override));
   MOCK_METHOD(Command, GetCommand, (), (const, override));
+  MOCK_METHOD(void, SendAlarmCode, (AlarmCode code), (override));
 };
 
 #endif

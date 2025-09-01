@@ -11,7 +11,7 @@
 
 class SystemLogger {
 public:
-  SystemLogger* GetLogger();
+  static SystemLogger* GetLogger();
 
   template<typename... Args>
   void LogInfo(const Args&... args)

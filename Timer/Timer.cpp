@@ -15,6 +15,15 @@ void Timer::UpdateTimers(const unsigned long timestamp)
   }
 }
 
+void Timer::UpdateTimers()
+{
+  const unsigned long timestamp = TimeHelpers::GetTimeSinceEpoch();
+  for (Timer* timer : Timer::AllTimers)
+  {
+    timer->Update(timestamp);
+  }
+}
+
 Timer::Timer()
   : Callback()
   , StartTime(0)
@@ -52,6 +61,21 @@ Timer::~Timer()
   {
     AllTimers.erase(iter);
   }
+}
+
+unsigned long Timer::GetDuration() const
+{
+  return Duration;
+}
+
+std::function<void()> Timer::GetCallback() const
+{
+  return Callback;
+}
+
+bool Timer::GetSingleShot() const
+{
+  return SingleShot;
 }
 
 void Timer::SetDuration(const unsigned long duration)

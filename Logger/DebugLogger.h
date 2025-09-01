@@ -11,7 +11,7 @@
 class DebugLogger
 {
 public:
-  DebugLogger* GetLogger();
+  static DebugLogger* GetLogger();
 
   template<typename... Args>
   void Debug(const Args&... args)

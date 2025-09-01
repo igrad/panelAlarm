@@ -23,6 +23,11 @@ public:
   ~Timer();
 
   static void UpdateTimers(const unsigned long timestamp);
+  static void UpdateTimers();
+
+  unsigned long GetDuration() const;
+  std::function<void()> GetCallback() const;
+  bool GetSingleShot() const;
 
   void SetDuration(const unsigned long duration);
   void SetCallback(std::function<void()> callback);

@@ -1,6 +1,7 @@
 #include "DisplayManager.h"
 
 #include <ButtonManagerInterface.h>
+#include <CommonTypes.h>
 #include <Constants.h>
 #include <DebugLogger.h>
 #include <DisplayAdapter.h>
@@ -87,7 +88,11 @@ void DisplayManager::CheckForCommands()
     }
     else if(Command::Arm == receivedCommand)
     {
-      // TODO: Arm
+      ButtonManager.ArmPanel();
+    }
+    else if(Command::Disarm == receivedCommand)
+    {
+      ButtonManager.DisarmPanel();
     }
   }
 }
